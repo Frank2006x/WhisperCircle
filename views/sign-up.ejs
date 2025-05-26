@@ -148,6 +148,10 @@
       .login-link a:hover {
         text-decoration: underline;
       }
+      #error{
+        color: rgba(255, 0, 0, 0.71);
+        text-align: center;
+      }
 
       footer {
         text-align: center;
@@ -176,17 +180,35 @@
         <form id="signupForm" action="/sign-up" method="POST">
           <div class="form-group">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" required />
+            <input
+              type="text"
+              id="fName"
+              name="fName"
+              value="<%= data.fName || '' %>"
+              required
+            />
           </div>
 
           <div class="form-group">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" required />
+            <input
+              type="text"
+              id="lName"
+              name="lName"
+              value="<%= data.lName || '' %>"
+              required
+            />
           </div>
 
           <div class="form-group">
             <label for="text">Username</label>
-            <input type="text" id="username" name="username" required />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value="<%= data.username || '' %>"
+              required
+            />
           </div>
 
           <div class="form-group">
@@ -196,6 +218,7 @@
               id="password"
               name="password"
               required
+              value="<%= data.password || '' %>"
               minlength="8"
             />
           </div>
@@ -206,13 +229,17 @@
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              value="<%= data.confirmPassword || '' %>"
               required
             />
           </div>
 
+          <% if(locals.errors){ %>
+          <div id="error"><%= errors[0].msg %></div>
+
+          <%}%>
           <button type="submit" class="submit-btn">Sign Up</button>
         </form>
-
         <div class="login-link">
           Already have an account? <a href="/login">Log in</a>
         </div>

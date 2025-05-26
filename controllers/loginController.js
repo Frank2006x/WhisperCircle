@@ -1,7 +1,9 @@
 const passport = require("passport");
-function isLoggedIn(req, res, next) {
+const db = require("../db/queries");
+async function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/home");
+    const id = await db.getId(req.user.username);
+    return res.redirect(`/home/${id}`);
   }
   next();
 }
@@ -13,8 +15,15 @@ module.exports = {
       res.render("login");
     },
   ],
-  post: passport.authenticate("local", {
-    successRedirect: "/home",
-    failureRedirect: "/login",
-  }),
+  post: [
+    passport.authenticate("local", {
+      failureRedirect: "/login",
+    }),
+
+    
+    async (req, res) => {
+      const id = await db.getId(req.user.username); 
+      res.redirect(`/home/${id}`);
+    },
+  ],
 };

@@ -29,7 +29,7 @@ app.use(
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index",);
 });
 
 app.use("/sign-up", signUpRouter);
