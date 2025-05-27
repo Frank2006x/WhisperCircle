@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login to WhisperCircle</title>
+    <title>Become the member WhisperCircle</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -89,10 +89,10 @@
         transform: scale(0.8);
       }
 
-      h1 {
+      h4 {
         margin-top: 0;
         margin-bottom: 30px;
-        font-size: 2em;
+        font-size: 1.5rem;
         background: var(--gradient);
         -webkit-background-clip: text;
         background-clip: text;
@@ -220,34 +220,27 @@
     <div class="login-container">
       <div class="login-form-container">
         <div class="login-form">
-          <h1>Welcome Back</h1>
-          <form id="loginForm" action="/login" method="POST">
+          <h4>
+            Become a member to enjoy exclusive access to our premium services!
+          </h4>
+          <form id="loginForm" action="/become-member" method="POST">
             <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" name="username" required />
+              <label for="secretCode">Secret code</label>
+              <input type="text" id="secretCode" name="secretCode" required />
             </div>
 
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" required />
-            </div>
             <% if(locals.errors){ %>
-              <div id="error"><%= errors %></div>
+            <div id="error"><%= errors %></div>
 
             <%}%>
 
-            <button type="submit" class="login-btn">Log In</button>
+            <button type="submit" class="login-btn">become member</button>
           </form>
-
-          <div class="signup-link">
-            Don't have an account? <a href="/sign-up">Sign up</a>
-            <a href="/home">home</a>
-          </div>
         </div>
       </div>
 
       <div class="image-container">
-        <img src="login.svg" alt="img" />
+        <img src="member.svg" alt="img" />
       </div>
     </div>
 
