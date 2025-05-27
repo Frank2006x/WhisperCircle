@@ -164,13 +164,23 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(123, 92, 246, 0.4);
       }
-
       .messages-container {
         display: flex;
         flex-direction: column;
         gap: 25px;
         margin-top: 4rem;
         margin-bottom: 4rem;
+        max-height: calc(
+          100vh - 250px
+        ); /* Adjust based on header/footer height */
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        scrollbar-width: none; 
+        -ms-overflow-style: none; 
+            }
+            .messages-container::-webkit-scrollbar {
+        display: none; 
+        
       }
 
       .message-card {
@@ -259,7 +269,7 @@
           gap: 20px;
         }
       }
-     
+
       .crown svg {
         width: 30px;
         height: 30px;
@@ -330,27 +340,10 @@
 
     <main>
       <div class="messages-container">
-        <!-- Sample Message 1 -->
-        <div class="message-card">
-          <h3 class="message-title">Welcome to WhisperCircle</h3>
-          <p class="message-content">
-            This is your first message in our exclusive community. Share your
-            thoughts, connect with other members, and enjoy the private space
-            we've created.
-          </p>
-          <div class="message-footer">
-            <span class="member-only">Members Only</span>
-            <span>2 days ago</span>
-          </div>
-          <!-- Admin controls (only visible to admins) -->
-          <div class="admin-controls">
-            <button class="delete-btn">Delete Message</button>
-          </div>
-        </div>
+        <!-- Admin controls (only visible to admins) -->
 
         <!-- Sample Message 2 -->
         <div class="message-card">
-          <h3 class="message-title">Community Guidelines</h3>
           <p class="message-content">
             Please remember to be respectful to all members. We value thoughtful
             discussions and meaningful connections in this space.
@@ -359,11 +352,13 @@
             <span>Anonymous</span>
             <span>1 week ago</span>
           </div>
+          <div class="admin-controls">
+            <button class="delete-btn">Delete Message</button>
+          </div>
         </div>
 
         <!-- Sample Message 3 -->
         <div class="message-card">
-          <h3 class="message-title">Upcoming Event</h3>
           <p class="message-content">
             Join us next Friday for our virtual meetup. Members will receive the
             invitation link via email. Looking forward to seeing everyone there!
@@ -373,10 +368,19 @@
             <span>3 days ago</span>
           </div>
         </div>
+        <% if (locals.msg) { %> <% msg.forEach(function(m) { %>
+        <div class="message-card">
+          <p class="message-content"><%= m.msg %></p>
+          <div class="message-footer">
+            <span>Anonymous</span>
+            <span><%= m.dateofpost.toString().slice(0,10) %></span>
+          </div>
+        </div>
+        <% }); %> <% } %>
       </div>
     </main>
     <div class="new-message-input-bar">
-      <form action="/post-message" method="POST">
+      <form action="/home/<%= userId %>" method="POST">
         <input
           type="text"
           name="message"
@@ -387,4 +391,15 @@
       </form>
     </div>
   </body>
+  <script>
+    window.addEventListener("load", function () {
+      const container = document.querySelector(".messages-container");
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    });
+  </script>
 </html>

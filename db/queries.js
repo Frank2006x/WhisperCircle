@@ -16,5 +16,15 @@ async function saveAdmin(username) {
     username,
   ]);
 }
+async function addMsg(message, id) {
+  await pool.query(
+    "insert into msg_details(loginid,msg,dateofpost) values($1,$2,current_date)",
+    [id, message]
+  );
+}
 
-module.exports = { getId, saveAdmin };
+async function loadMsg() {
+  const { rows } =await pool.query("select * from msg_details");
+  return rows;
+}
+module.exports = { getId, saveAdmin, addMsg ,loadMsg};
