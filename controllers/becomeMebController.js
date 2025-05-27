@@ -31,7 +31,7 @@ module.exports = {
     if (password == process.env.MPASSWORD) {
       try {
         const id = await db.getId(req.user.username);
-        console.log(id);
+        
         await db.saveAdmin(req.user.username);
         return res.redirect(`/home/${id}`);
       } catch (err) {

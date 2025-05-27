@@ -58,7 +58,7 @@ passport.use(
         [username]
       );
       const user = rows[0];
-      
+
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
@@ -89,6 +89,8 @@ passport.deserializeUser(async (loginid, done) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server Up !!!");
-});
+// app.listen(3000, () => {
+//   console.log("Server Up !!!");
+// });
+
+module.exports = app;

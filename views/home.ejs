@@ -339,31 +339,7 @@
 
     <main>
       <div class="messages-container">
-        <!-- Admin controls (only visible to admins) -->
-
-        <!-- Sample Message 2 -->
-        <div class="message-card">
-          <p class="message-content">
-            Please remember to be respectful to all members. We value thoughtful
-            discussions and meaningful connections in this space.
-          </p>
-          <div class="message-footer">
-            <span>Anonymous</span>
-            <span>1 week ago</span>
-          </div>
-        </div>
-
-        <!-- Sample Message 3 -->
-        <div class="message-card">
-          <p class="message-content">
-            Join us next Friday for our virtual meetup. Members will receive the
-            invitation link via email. Looking forward to seeing everyone there!
-          </p>
-          <div class="message-footer">
-            <span class="member-only">Members Only</span>
-            <span>3 days ago</span>
-          </div>
-        </div>
+        
         <% if (locals.msg) { %> <% msg.forEach(function(m) { %>
         <div class="message-card">
           <p class="message-content"><%= m.msg %></p>
