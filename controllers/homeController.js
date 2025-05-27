@@ -10,9 +10,26 @@ module.exports = {
     isLoggedIn,
     async (req, res) => {
       const msgs = await db.loadMsg();
-      console.log(msgs);
-      const id=await db.getId(req.user.username)
-      res.render("home", {userId: id, msg: msgs });
+      const id = await db.getId(req.user.username);
+      const isAdmin = await db.checkAdmin(id);
+      
+      const msgsWithUsernames = await Promise.all(
+        msgs.map(async (msg) => {
+          if (isAdmin) {
+            const username = await db.getUsernameById(msg.loginid);
+            return { ...msg, username: username };
+          } else {
+            return { ...msg, username: "Anonymous" };
+          }
+        })
+      );
+      
+
+      res.render("home", {
+        userId: id,
+        msg: msgsWithUsernames,
+        admin: isAdmin,
+      });
     },
   ],
   post: async (req, res) => {
@@ -21,4 +38,17 @@ module.exports = {
     await db.addMsg(message, id);
     res.redirect(`/home/${id}`);
   },
+  deleteMsg: [
+    isLoggedIn,
+    async (req, res, next) => {
+      const userId = await db.getId(req.user.username);
+      const isAdmin = await db.checkAdmin(userId);
+      if (!isAdmin) {
+        return res.status(403).send("Forbidden");
+      }
+      const msgId = req.params.msgId;
+      await db.deleteMsg(msgId);
+      res.redirect(`/home/${userId}`);
+    },
+  ],
 };

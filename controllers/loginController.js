@@ -16,14 +16,23 @@ module.exports = {
     },
   ],
   post: [
-    passport.authenticate("local", {
-      failureRedirect: "/login",
-    }),
+    (req, res, next) => {
+      passport.authenticate("local", async (err, user, info) => {
+        if (err) return next(err);
+        if (!user) {
+          return res.render("login", { errors: info.message });
+        }
 
-    
-    async (req, res) => {
-      const id = await db.getId(req.user.username); 
-      res.redirect(`/home/${id}`);
+        req.logIn(user, async (err) => {
+          if (err) return next(err);
+          try {
+            const id = await db.getId(user.username);
+            res.redirect(`/home/${id}`);
+          } catch (dbErr) {
+            next(dbErr);
+          }
+        });
+      })(req, res, next);
     },
   ],
 };

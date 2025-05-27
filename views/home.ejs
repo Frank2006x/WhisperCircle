@@ -175,12 +175,11 @@
         ); /* Adjust based on header/footer height */
         overflow-y: scroll;
         scroll-behavior: smooth;
-        scrollbar-width: none; 
-        -ms-overflow-style: none; 
-            }
-            .messages-container::-webkit-scrollbar {
-        display: none; 
-        
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .messages-container::-webkit-scrollbar {
+        display: none;
       }
 
       .message-card {
@@ -352,9 +351,6 @@
             <span>Anonymous</span>
             <span>1 week ago</span>
           </div>
-          <div class="admin-controls">
-            <button class="delete-btn">Delete Message</button>
-          </div>
         </div>
 
         <!-- Sample Message 3 -->
@@ -372,9 +368,26 @@
         <div class="message-card">
           <p class="message-content"><%= m.msg %></p>
           <div class="message-footer">
-            <span>Anonymous</span>
+            <span><%= m.username %></span>
             <span><%= m.dateofpost.toString().slice(0,10) %></span>
           </div>
+          <% if(locals.admin) {%>
+          <div class="admin-controls">
+            <form
+              action="/home/<%= userId %>/delete/<%= m.msgid %>"
+              method="POST"
+              style="display: inline"
+            >
+              <button
+                class="delete-btn"
+                type="submit"
+                onclick="return confirm('Delete this message?')"
+              >
+                Delete Message
+              </button>
+            </form>
+          </div>
+          <% } %>
         </div>
         <% }); %> <% } %>
       </div>

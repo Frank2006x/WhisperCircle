@@ -27,4 +27,20 @@ async function loadMsg() {
   const { rows } =await pool.query("select * from msg_details");
   return rows;
 }
-module.exports = { getId, saveAdmin, addMsg ,loadMsg};
+async function checkAdmin(id) {
+  const { rows } = await pool.query("select loginid from member");
+  return rows.some((i) => i.loginid == id);
+}
+async function getUsernameById(id){
+  const { rows } = await pool.query(
+    "SELECT username FROM login WHERE loginid = $1",
+    [id]
+  );
+  return rows[0]?.username;
+  
+}
+async function deleteMsg(msgId) {
+  await pool.query("DELETE FROM msg_details WHERE msgid = $1", [msgId]);
+  
+}
+module.exports = { getId, saveAdmin, addMsg ,loadMsg,checkAdmin,getUsernameById,deleteMsg};
